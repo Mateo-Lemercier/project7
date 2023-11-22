@@ -18,52 +18,35 @@ end_messages = [
 
 
 def StartGame():
-    global input_start, input_end, possible_inputs, possible_outcomes
+    global input_start, input_end, possible_outcomes
     
     while True:
 
         bot_play = randint(1, 3)
-        user_play = AskPlay("What's your play ? (rock / r - paper / p - scissors / s)")
+        user_play = AskInput(input_start + "What's your play ? (rock / r - paper / p - scissors / s)", ["rock", "r", "paper", "p", "scissors", "s"], 0)
 
         print(input_start + ["Rock ! ", "Paper ! ", "Scissors ! "][bot_play-1] + end_messages[possible_outcomes[user_play-1][bot_play-1]])
 
-        if not AskReplay("Wanna replay ? (o/n)"):
+        if which == 0:
+            return rockpaperscissors.index(answer.replace("rock", "r").replace("paper", "p").replace("scissors", "s"))+1
+        else:
+            return answer == authorized_inputs[0]
+
+        if not AskInput("Wanna replay ? (o/n)", ["o", "n"], 1):
             break
 
 
 
-
-
-def AskPlay(question:str):
-    global input_start, input_end, rockpaperscissors
-
+def AskInput(question:str, authorized_inputs:list) -> str:
+    global input_start, input_end
+    
     while True:
+        answer: str = input(question + input_end).lower()
 
-        answer: str = input(input_start + question + input_end).lower().replace("rock", "r").replace("paper", "p").replace("scissors", "s")
-
-        if answer not in rockpaperscissors:
-            question = "That's not a valid play... (rock / r - paper / p - scissors / s)"
-            continue
+        if answer in authorized_inputs:
+            return answer
         
-        return rockpaperscissors.index(answer)+1
-
-
-
-
-
-def AskReplay(question:str) -> bool:
-    
-    authorized = ["o", "n"]
-    
-    while True:
-
-        answer: str = input(question + input_end)
-
-        if answer not in authorized:
-            question = input_start + "That's not what I asked..."
-            continue
-
-        return answer == authorized[0]
+        question = input_start + ["That's not a valid play... ", "That's not what I asked..."]
 
 
 
