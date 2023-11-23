@@ -22,7 +22,7 @@ def StartGame():
 
         AskGuess(range, guesses)
 
-        if not AskReplay("Wanna replay ? (o/n)"):
+        if not AskReplay():
             break
 
 
@@ -125,8 +125,9 @@ def AskInt(question:str, range:list) -> int:
 
 
 
-def AskReplay(question:str) -> bool:
+def AskReplay() -> bool:
     
+    question: str = "Wanna replay ? (o/n)"
     authorized = ["o", "n"]
     
     while True:

@@ -1,26 +1,29 @@
 input_start: str = "\n\n\n"
 input_end: str = "\n> "
 num_to_text: list = ["-", "X", "O"]
-player: int = 2
 
-rows: list = [[[0], [0], [0]],
-              [[0], [0], [0]],
-              [[0], [0], [0]]]
+rows: list = [[[1], [2], [3]],
+              [[4], [5], [6]],
+              [[7], [8], [9]]]
 
-columns: list = [[rows[0][0], rows[1][0], rows[2][0]],
-                 [rows[0][1], rows[1][1], rows[2][1]],
-                 [rows[0][2], rows[1][2], rows[2][2]]]
+columns: list = []
+for loop in range(len(rows)):
+    columns.append([])
+    for smallloop in range(len(rows[loop])):
+        columns[loop].append(rows[smallloop][loop])
 
-diagonals: list = [[rows[0][0], rows[1][1], rows[2][2]],
-                   [rows[0][2], rows[1][1], rows[2][0]]]
+diagonals:list = [[], []]
+for loop in range(len(rows[0])):
+    diagonals[0].append(rows[loop][loop])
+    diagonals[1].append(rows[loop][len(rows[0])-loop-1])
 
 
 
 
 
 def StartGame():
-    global player
 
+    player: int = 2
     row: list
     slot: list
 
@@ -38,7 +41,7 @@ def StartGame():
         
         print(input_start + gameboard)
 
-        if CheckVictory():
+        if CheckVictory(player):
             print("The Winner is Player " + str(player) + " !")
         
         elif CheckTie():
@@ -46,10 +49,10 @@ def StartGame():
 
         else:
             player = 3 - player
-            AskPlay("What's your play, Player " + str(player) + " ? (1=bottomleft - 2=bottom - 3=bottomright - 4=left - 5=middle - 6=right - 7=topleft - 8=top - 9=topright)")
+            AskPlay("What's your play, Player " + str(player) + " ? (1=bottomleft - 2=bottom - 3=bottomright - 4=left - 5=middle - 6=right - 7=topleft - 8=top - 9=topright)", player)
             continue
         
-        if not AskReplay("Wanna replay ? (o/n)"):
+        if not AskReplay():
             break
         
         player = 2
@@ -61,8 +64,8 @@ def StartGame():
 
 
 
-def AskPlay(question:str):
-    global input_start, input_end, rows, player
+def AskPlay(question:str, player:int):
+    global input_start, input_end, rows
     
     while True:
 
@@ -87,8 +90,8 @@ def AskPlay(question:str):
 
 
 
-def CheckVictory() -> bool:
-    global rows, columns, diagonals, player
+def CheckVictory(player:int) -> bool:
+    global rows, columns, diagonals
     
     tocheck = [rows, columns, diagonals]
 
@@ -118,8 +121,9 @@ def CheckTie() -> bool:
 
 
 
-def AskReplay(question:str) -> bool:
+def AskReplay() -> bool:
     
+    question: str = "Wanna replay ? (o/n)"
     authorized = ["o", "n"]
     
     while True:
@@ -136,4 +140,4 @@ def AskReplay(question:str) -> bool:
 
 
 
-StartGame()
+# StartGame()

@@ -18,21 +18,16 @@ end_messages = [
 
 
 def StartGame():
-    global input_start, input_end, possible_outcomes
+    global input_start, input_end, possible_outcomes, rockpaperscissors
     
     while True:
 
         bot_play = randint(1, 3)
-        user_play = AskInput(input_start + "What's your play ? (rock / r - paper / p - scissors / s)", ["rock", "r", "paper", "p", "scissors", "s"], 0)
+        user_play = rockpaperscissors.index(AskInput(input_start + "What's your play ? (rock / r / paper / p / scissors / s)", ["rock", "r", "paper", "p", "scissors", "s"]).replace("rock", "r").replace("paper", "p").replace("scissors", "s"))+1
 
         print(input_start + ["Rock ! ", "Paper ! ", "Scissors ! "][bot_play-1] + end_messages[possible_outcomes[user_play-1][bot_play-1]])
 
-        if which == 0:
-            return rockpaperscissors.index(answer.replace("rock", "r").replace("paper", "p").replace("scissors", "s"))+1
-        else:
-            return answer == authorized_inputs[0]
-
-        if not AskInput("Wanna replay ? (o/n)", ["o", "n"], 1):
+        if AskInput("Wanna replay ? (o / n)", ["o", "n"]) != "o":
             break
 
 
@@ -46,7 +41,10 @@ def AskInput(question:str, authorized_inputs:list) -> str:
         if answer in authorized_inputs:
             return answer
         
-        question = input_start + ["That's not a valid play... ", "That's not what I asked..."]
+        question = input_start + "That's not what I asked... ("
+        for authorized in authorized_inputs:
+            question += authorized + " / "
+        question = question[:-3] + ")"
 
 
 
