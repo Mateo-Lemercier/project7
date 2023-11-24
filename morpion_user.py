@@ -2,9 +2,9 @@ input_start: str = "\n\n\n"
 input_end: str = "\n> "
 num_to_text: list = ["-", "X", "O"]
 
-rows: list = [[[1], [2], [3]],
-              [[4], [5], [6]],
-              [[7], [8], [9]]]
+rows: list = [[[0], [0], [0]],
+              [[0], [0], [0]],
+              [[0], [0], [0]]]
 
 columns: list = []
 for loop in range(len(rows)):
@@ -56,8 +56,11 @@ def StartGame():
             break
         
         player = 2
+
         for row in rows:
+            
             for slot in row:
+
                 slot[0] = 0
 
 
@@ -140,4 +143,4 @@ def AskReplay() -> bool:
 
 
 
-# StartGame()
+StartGame()
