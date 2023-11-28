@@ -5,6 +5,7 @@ def AskInt(question:str) -> int:
     """
 
     statement: str = question
+    statement_wrong_answer: str = "\nPlease enter a valid number"
     answer: str
 
     while True:
@@ -14,7 +15,7 @@ def AskInt(question:str) -> int:
         if (answer.isdecimal()): # Checking if the answer is an int
             return int(answer)
         
-        statement = "\nPlease enter a valid number"
+        statement = statement_wrong_answer
         
 
 
@@ -27,6 +28,7 @@ def AskInt_Minimum(question:str, minimum:int) -> int:
     """
 
     statement: str = question
+    statement_wrong_answer: str = "\nPlease enter a number above or equal to " + str(minimum)
     value: int
 
     while True:
@@ -36,7 +38,7 @@ def AskInt_Minimum(question:str, minimum:int) -> int:
         if value >= minimum:
             return value
         
-        statement = "\nPlease enter a number above or equal to " + str(minimum)
+        statement = statement_wrong_answer
 
 
 
@@ -48,6 +50,7 @@ def AskInt_Maximum(question:str, maximum:int) -> int:
     """
 
     statement: str = question
+    statement_wrong_answer: str = "\nPlease enter a number below or equal to " + str(maximum)
     value: int
 
     while True:
@@ -57,7 +60,7 @@ def AskInt_Maximum(question:str, maximum:int) -> int:
         if value <= maximum:
             return value
         
-        statement = "\nPlease enter a number below or equal to " + str(maximum)
+        statement = statement_wrong_answer
 
 
 
@@ -69,6 +72,7 @@ def AskInt_Range(question:str, minimum:int, maximum:int) -> int:
     """
 
     statement: str = question
+    statement_wrong_answer: str = "\nPlease enter a number between " + str(minimum) + " and " + str(maximum)
     value: int
 
     while True:
@@ -78,34 +82,58 @@ def AskInt_Range(question:str, minimum:int, maximum:int) -> int:
         if (minimum <= value <= maximum):
             return value
         
-        statement = "\nPlease enter a number between " + str(minimum) + " and " + str(maximum)
-
-
-
-
-
-def AskInput(question:str, authorized:list[str]) -> str:
-    """
-    Description
-    """
-
-    statement: str = question
-    statement_wrong_answer: str = "\nPlease enter "
-    for loop in range(len(authorized)-2): statement_wrong_answer += authorized[loop] + ", "
-    statement_wrong_answer += str(authorized[-2]) + " or " + str(authorized[-1])
-    answer: str
-
-    while True:
-
-        answer = input(statement + "\n> ")
-
-        if answer in authorized:
-            return answer
-
         statement = statement_wrong_answer
 
 
 
 
 
-print(AskInput("askinput", ["a", "b", "c", "d"]))
+def AskInput(question:str, authorized:list[str], lenght:int=1, case_sensitive:bool=True) -> str:
+    """
+    Description
+    """
+
+    statement: str = question
+    statement_wrong_answer_1: str = "\nPlease enter only these : "
+    for loop in range(len(authorized)): statement_wrong_answer_1 += authorized[loop] + ", "
+    statement_wrong_answer_2: str = "\nPlease enter a " + str(lenght) + " letter(s) word"
+    answer: str
+
+    if not case_sensitive:
+        authorized = [word.lower() for word in authorized]
+    
+    while True:
+
+        answer = input(statement + "\n> ")
+            
+        if len(answer) != lenght:
+            statement = statement_wrong_answer_2
+            continue
+        
+        if not case_sensitive:
+            answer = answer.lower()
+        
+        for text in answer:
+            
+            if text not in authorized:
+                statement = statement_wrong_answer_1
+                break
+        
+        else:
+            return answer
+
+
+
+
+
+def AskReplay() -> bool:
+    """
+    Description
+    """
+
+    answer = AskInput("\nWanna replay ? (o/n)", "on", 1, False)
+
+    if answer == "n":
+        return False
+
+    return True
