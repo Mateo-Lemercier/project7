@@ -126,12 +126,23 @@ def AskInput(question:str, authorized:list[str], lenght:int=1, case_sensitive:bo
 
 
 
+def AskInput_str(question:str, authorized:str, lenght:int=1, case_sensitive:bool=True) -> str:
+    """
+    Description
+    """
+
+    return AskInput(question, [char for char in authorized], lenght, case_sensitive)
+
+
+
+
+
 def AskReplay() -> bool:
     """
     Description
     """
 
-    answer = AskInput("\nWanna replay ? (o/n)", "on", 1, False)
+    answer = AskInput_str("\nWanna replay ? (o/n)", "on", 1, False)
 
     if answer == "n":
         return False

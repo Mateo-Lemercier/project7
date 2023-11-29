@@ -38,7 +38,7 @@ def Worlde_Play(tries_count:int):
     Description
     """
 
-    word: list[str] = [letter for letter in choice(["MIAOU", "LIVRE", "PENDU"])]
+    word: list[str] = [letter for letter in choice(["MIAOU"])]
     tries: list[list[str]] = [["-", "-", "-", "-", "-"] for _ in range(6)]
     tries_style: list[list[str]] = [["", "", "", "", ""] for _ in range(6)]
     index: int
@@ -47,30 +47,40 @@ def Worlde_Play(tries_count:int):
 
     for bigloop in range(tries_count):
 
-        tries[bigloop] = [letter for letter in AskInput("", "abcdefghijklmnopqrstuvwxyz", 5, False).upper()]
-        
-        for smallloop in range(5):
-            
-            index = "".join(word).find(tries[bigloop][smallloop])
+        tries[bigloop] = [letter for letter in AskInput_str("", "abcdefghijklmnopqrstuvwxyz", 5, False).upper()]
+        tries_letters = {}
+        for letter in word:
+            if letter not in tries_letters:
+                tries_letters[letter] = 1
+                continue
+            tries_letters[letter] += 1
 
-            if index != -1:
-                 
-                print(tries[bigloop][index], word[index])
-                if tries[bigloop][index] == word[index]:
-                    tries_style[bigloop][smallloop] = "\033[1m\033[96m"
-                    continue
-                
-                tries_style[bigloop][smallloop] = "\033[1m\033[93m"
+        for smallloop in range(len(word)):
+
+            if tries[bigloop][smallloop] == word[smallloop]:
+
+                tries_style[bigloop][smallloop] = "\033[1m\033[96m"
+                tries_letters[tries[bigloop][smallloop]] -= 1
                 continue
             
             tries_style[bigloop][smallloop] = "\033[1m\033[91m"
+
+        for smallloop in range(len(word)):
+            
+            if tries[bigloop][smallloop] != word[smallloop] and tries[bigloop][smallloop] in tries_letters:
+                
+                if tries_letters[tries[bigloop][smallloop]]:
+
+                    tries_style[bigloop][smallloop] = "\033[1m\033[93m"
+                    tries_letters[tries[bigloop][smallloop]] -= 1
+                    continue
 
         Worlde_Gameboard(tries_count, tries, tries_style)
 
         if tries[bigloop] == word:
             return "You found the word in " + str(bigloop+1) + " tries"
     
-    return "You didn't find my word, it was " + "".join(word).capitalize()
+    return "You didn't find my word, it was \033[1m\033[4m\033[96m" + "".join(word) + "\033[0m"
 
 
 
@@ -80,7 +90,7 @@ def Worlde_Gameboard(tries_count:int, tries:list[list[str]], tries_style:list[li
     """
     Description
     """
-    os.system("cls")
+    # os.system("cls")
 
     gameboard: str = ""
     
