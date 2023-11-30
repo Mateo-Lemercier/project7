@@ -41,7 +41,7 @@ def Worlde_Play(tries_count:int):
     word: list[str] = [letter for letter in choice(["MIAOU"])]
     tries: list[list[str]] = [["-", "-", "-", "-", "-"] for _ in range(6)]
     tries_style: list[list[str]] = [["", "", "", "", ""] for _ in range(6)]
-    index: int
+    tries_letters: dict[str, int]
 
     Worlde_Gameboard(tries_count, tries, tries_style)
 
@@ -62,18 +62,20 @@ def Worlde_Play(tries_count:int):
                 tries_style[bigloop][smallloop] = "\033[1m\033[96m"
                 tries_letters[tries[bigloop][smallloop]] -= 1
                 continue
-            
-            tries_style[bigloop][smallloop] = "\033[1m\033[91m"
 
         for smallloop in range(len(word)):
             
-            if tries[bigloop][smallloop] != word[smallloop] and tries[bigloop][smallloop] in tries_letters:
+            if tries[bigloop][smallloop] != word[smallloop]:
                 
-                if tries_letters[tries[bigloop][smallloop]]:
+                if tries[bigloop][smallloop] in tries_letters:
 
-                    tries_style[bigloop][smallloop] = "\033[1m\033[93m"
-                    tries_letters[tries[bigloop][smallloop]] -= 1
-                    continue
+                    if tries_letters[tries[bigloop][smallloop]]:
+
+                        tries_style[bigloop][smallloop] = "\033[1m\033[93m"
+                        tries_letters[tries[bigloop][smallloop]] -= 1
+                        continue
+                
+                tries_style[bigloop][smallloop] = "\033[1m\033[91m"
 
         Worlde_Gameboard(tries_count, tries, tries_style)
 

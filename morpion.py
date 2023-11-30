@@ -11,8 +11,9 @@ def StartGame_MorpionLike(rows_count:int=3, columns_count:int=3):
     
     rows: list[list[list[int]]] = []
     columns: list[list[list[int]]] = []
-    diagonals: list[list[list[int]]] = [[], []]
+    diagonals: list[list[list[int]]] = []
 
+    
     for bigloop in range(rows_count):
         
         rows.append([])
@@ -21,6 +22,7 @@ def StartGame_MorpionLike(rows_count:int=3, columns_count:int=3):
 
             rows[bigloop].append([0])
     
+
     for bigloop in range(columns_count):
 
         columns.append([])
@@ -29,7 +31,8 @@ def StartGame_MorpionLike(rows_count:int=3, columns_count:int=3):
 
             columns[bigloop].append(rows[smallloop][bigloop])
     
-    for bigloop in range(abs(columns_count - rows_count)+1):
+    
+    for bigloop in range():
         print
 
 
