@@ -39,7 +39,7 @@ def Worlde_Play(words:list[str], tries_count:int) -> str:
 
     for bigloop in range(tries_count):
 
-        tries[bigloop] = [letter for letter in AskInput_str("", "abcdefghijklmnopqrstuvwxyz", 5, False).upper()]
+        tries[bigloop] = Wordle_AskExistingWord(words)
         tries_letters = {}
         for letter in word:
             if letter not in tries_letters:
@@ -53,7 +53,6 @@ def Worlde_Play(words:list[str], tries_count:int) -> str:
 
                 tries_style[bigloop][smallloop] = "\033[1m\033[96m"
                 tries_letters[tries[bigloop][smallloop]] -= 1
-                continue
 
         for smallloop in range(len(word)):
             
@@ -96,7 +95,41 @@ def Worlde_GameBoard(tries_count:int, tries:list[list[str]], tries_style:list[li
         
         gameboard += "\n"
     
-    return gameboard[:-2]
+    return gameboard[:-1]
+
+
+
+
+
+def Wordle_AskExistingWord(words:list[str]) -> str:
+    """
+    Description
+    """
+
+    statement: str = ""
+    answer: str
+    word: str
+
+    while True:
+
+        if statement:
+
+            answer = AskInput_str(statement, "on", 1, False)
+
+            if answer == "o":
+                
+                words.append(word + "\n")
+                with open("wordle_words.txt", "a") as file:
+                    file.write(word + "\n")
+
+                return [letter for letter in word]
+
+        word = AskInput_str("", "abcdefghijklmnopqrstuvwxyz", 5, False).upper()
+
+        if word + "\n" in words:
+            return [letter for letter in word]
+        
+        statement = "I don't know this word, does it really exist ? (o/n) - Please don't lie"
 
 
 

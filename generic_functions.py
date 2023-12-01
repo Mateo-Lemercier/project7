@@ -12,7 +12,7 @@ def AskInt(question:str) -> int:
 
         answer = input(statement + "\n> ")
 
-        if (answer.isdecimal()): # Checking if the answer is an int
+        if answer.isdecimal():
             return int(answer)
         
         statement = statement_wrong_answer
