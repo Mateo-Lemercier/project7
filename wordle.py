@@ -1,14 +1,3 @@
-# Reset = \033[0m
-# Bold = \033[1m
-
-# Gray = \033[90m
-# Red = \033[91m
-# Green = \033[92m
-# Yellow = \033[93m
-# Blue = \033[94m
-# Pink = \033[95m
-# Cyan = \033[96m
-
 from generic_functions import *
 from random import choice
 import os
@@ -17,14 +6,17 @@ import os
 
 
 
-def StartGame_Wordle():
+def Wordle_StartGame():
     """
-    Description
+    Starts a Worlde's game.
     """
+
+    with open("wordle_words.txt", "r") as file:
+        words = file.readlines()
 
     while True:
 
-        print(Worlde_Play(6))
+        print(Worlde_Play(words, 6))
         
         if not AskReplay():
             break
@@ -33,17 +25,17 @@ def StartGame_Wordle():
 
 
 
-def Worlde_Play(tries_count:int):
+def Worlde_Play(words:list[str], tries_count:int) -> str:
     """
-    Description
+    Plays a Wordle's game.
     """
-
-    word: list[str] = [letter for letter in choice(["MIAOU"])]
+    
+    word: list[str] = [letter for letter in choice(words)[:-1].upper()]
     tries: list[list[str]] = [["-", "-", "-", "-", "-"] for _ in range(6)]
     tries_style: list[list[str]] = [["", "", "", "", ""] for _ in range(6)]
     tries_letters: dict[str, int]
-
-    Worlde_Gameboard(tries_count, tries, tries_style)
+    
+    print(Worlde_GameBoard(tries_count, tries, tries_style))
 
     for bigloop in range(tries_count):
 
@@ -77,7 +69,7 @@ def Worlde_Play(tries_count:int):
                 
                 tries_style[bigloop][smallloop] = "\033[1m\033[91m"
 
-        Worlde_Gameboard(tries_count, tries, tries_style)
+        print(Worlde_GameBoard(tries_count, tries, tries_style))
 
         if tries[bigloop] == word:
             return "You found the word in " + str(bigloop+1) + " tries"
@@ -88,11 +80,11 @@ def Worlde_Play(tries_count:int):
 
 
 
-def Worlde_Gameboard(tries_count:int, tries:list[list[str]], tries_style:list[list[str]]):
+def Worlde_GameBoard(tries_count:int, tries:list[list[str]], tries_style:list[list[str]]) -> str:
     """
-    Description
+    Returns a printable Worlde's gameboard as a string.
     """
-    # os.system("cls")
+    os.system("cls")
 
     gameboard: str = ""
     
@@ -104,13 +96,11 @@ def Worlde_Gameboard(tries_count:int, tries:list[list[str]], tries_style:list[li
         
         gameboard += "\n"
     
-    gameboard = gameboard[:-2]
-
-    print(gameboard)
+    return gameboard[:-2]
 
 
 
 
 
 if __name__ == "__main__":
-    StartGame_Wordle()
+    Wordle_StartGame()
